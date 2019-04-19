@@ -1,12 +1,11 @@
 const fetch = require('node-fetch');
-// const beep = require('beepbeep');
 const say = require('say');
+const creds = require('./creds.js');
 var nodemailer = require('nodemailer');
 
 
 var lastT = 0, calls = 0, sentMails = [], cinemaDateNotOpen = [];
 
-// (
 function poll(url, options) {
     calls++;
     for(var i = 0; i < cinemaDateNotOpen.length; i++ ){
@@ -71,10 +70,7 @@ function poll(url, options) {
                     sentMails.push(options.cinemaName+searchFor+options.subscriber)
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
-                        auth: {
-                            user: 'kk11051997@gmail.com',
-                            pass: 'dummypass'
-                        }
+                        auth: creds.mailAuth,
                     });
                     
                     var mailOptions = {
@@ -110,7 +106,6 @@ function poll(url, options) {
         pollDone();
     })
 }
-// )();
 
 function pollDone() {
     calls--;
@@ -145,13 +140,17 @@ function init(){
         cinemaName: 'Prasads',
         subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
     });
-    poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
-        searchFor : [
-            'Sri Sai Ram 70mm A/C 4k Dolby Atmos', 
-        ], 
-        cinemaName: '[INITAL RUN]Avengers: Endgame (All theaters ping)',
-        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
-    });
+    if(initialRun)
+    {
+        poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
+            searchFor : [
+                'Sri Sai Ram 70mm A/C 4k Dolby Atmos', 
+            ], 
+            cinemaName: '[INITIAL RUN]Avengers: Endgame (All theaters ping)',
+            subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
+        });
+    }
+    initialRun = false
     poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
         searchFor : [
             'Asian Shiva 4K: Dilsukhnagar', 
@@ -164,7 +163,8 @@ function init(){
         cinemaName: 'Avengers: Endgame (All theaters ping)',
         subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com, amithreddynomula@gmail.com',
     });
-    
-    
 }
+
+var initialRun = true
 lastT = setTimeout(init, 0);
+
