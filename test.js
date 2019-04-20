@@ -30,6 +30,7 @@ function checkShowTimingsChanged(event, bookingDate) {
         pendingCalls--;
         var arrEvents, arrVenues, arrShowTimes, initRun = false;
         eval(x);
+        // console.log(x);
         var subs = subscribers;
         if(!allEvents[event.eventId].venues){
             allEvents[event.eventId].venues = [];
@@ -58,7 +59,7 @@ function checkShowTimingsChanged(event, bookingDate) {
             
             sendMail("kk11051997@gmail.com", 
                 subs,
-                (initRun ? ("[INITIALIZED SERVICE] " + event.movieName + " venues updated") : (event.movieName + " venues updated")),
+                (initRun ? ("[INITIALIZED SERVICE] " + event.movieName + " venues updated") : (event.movieName + " venues updated")) + " " + new Date(),
                 body)
         }
         repoll();        
@@ -138,7 +139,7 @@ function repoll(){
 var lastHour = null;
 function init(){
     var currentHour = new Date().getHours();
-    if(currentHour === 23){ // Change if you wanna stop the serivce at a particular time
+    if(currentHour === 24){ // Change if you wanna stop the serivce at a particular time
         sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date() , "Polling service stopped at " + new Date());
         return;
     }
@@ -156,12 +157,13 @@ function init(){
                 allEventsStr += currEvent.venues.join("<br>");
                 allEventsStr += "<br>*************<br><br>";
             }
-            sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] " + new Date() , allEventsStr);
+            sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] Service Running", allEventsStr);
         }
         lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
-    findStuff('uri', '20190424');
+    findStuff('endgame', '20190426');
 }
 
 init();
+setTimeout(init, 40000)
