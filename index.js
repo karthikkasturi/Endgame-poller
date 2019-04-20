@@ -38,7 +38,7 @@ function poll(url, options) {
         "mode": "cors" 
     })
     .then(x => {
-        if(x.url !== url) {
+        if(false && x.url !== url) {
             if(!cinemaDateNotOpen.some(x => x.url === url))
             {
                 console.log("blocking " + options.cinemaName)
@@ -67,6 +67,7 @@ function poll(url, options) {
                 
                 if(options.subscriber.length > 0 && !sentMails.includes(options.cinemaName + searchFor + options.subscriber))
                 {
+                    console.log('trying to mail')
                     sentMails.push(options.cinemaName+searchFor+options.subscriber)
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
@@ -87,7 +88,7 @@ function poll(url, options) {
                             console.log('Email sent: ' + info.response);
                         }
                     });
-                    say.speak(searchFor + ' available at ' + options.cinemaName);
+                    // say.speak(searchFor + ' available at ' + options.cinemaName);
 
                 }
                 
@@ -122,6 +123,29 @@ function pollDone() {
 }
 
 function init(){
+    if(new Date().getHours() > 24)
+    {
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: creds.mailAuth,
+        });
+        
+        var mailOptions = {
+            from: 'kk11051997@gmail.com',
+            to: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
+            subject: 'Stopped service at ' + new Date() ,
+            text: 'Poller stopped at home'
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+        return;
+    }
     console.log('************************************')
     console.log("Polling all stations(runtime: " + new Date() + ")")
     console.log('************************************')
@@ -130,11 +154,7 @@ function init(){
         cinemaName: 'I-MAX',
         subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
     });
-    // poll("https://in.bookmyshow.com/buytickets/prasads-large-screen/cinema-hyd-PRHY-MT/20190418", {
-    //     searchFor : 'kalank',
-    //     cinemaName: 'I-MAX',
-    //     subscriber: 'kk11051997@gmail.com',
-    // });
+    
     poll("https://in.bookmyshow.com/buytickets/prasads-hyderabad/cinema-hyd-PRHN-MT/20190426", {
         searchFor : ['endgame'],
         cinemaName: 'Prasads',
@@ -142,26 +162,39 @@ function init(){
     });
     if(initialRun)
     {
-        poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
-            searchFor : [
-                'Sri Sai Ram 70mm A/C 4k Dolby Atmos', 
-            ], 
-            cinemaName: '[INITIAL RUN]Avengers: Endgame (All theaters ping)',
+        poll("https://in.bookmyshow.com/buytickets/prasads-large-screen/cinema-hyd-PRHY-MT/20190418", {
+            searchFor : ['kalank'],
+            cinemaName: '[INITAL RUN] I-MAX',
             subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
         });
+
+        // poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
+        //     searchFor : [
+        //         'Sri Sai Ram 70mm A/C 4k Dolby Atmos', 
+        //     ], 
+        //     cinemaName: '[INITIAL RUN]Avengers: Endgame (All theaters ping)',
+        //     subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
+        // });
     }
     initialRun = false
+    // poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
+    //     searchFor : [
+    //         'Asian Shiva 4K: Dilsukhnagar', 
+    //         'Asian Ganga 4K: Dilsukhnagar',  
+    //         'BVK Multiplex Vijayalakshmi', 
+    //         'AMB Cinemas: Gachibowli', 
+    //         'INOX: Maheshwari', 
+    //         'Miraj Cinemas: Shalini Shivani',
+    //     ], 
+    //     cinemaName: 'Avengers: Endgame (All theaters ping)',
+    //     subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com, amithreddynomula@gmail.com',
+    // });
     poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
         searchFor : [
-            'Asian Shiva 4K: Dilsukhnagar', 
-            'Asian Ganga 4K: Dilsukhnagar',  
-            'BVK Multiplex Vijayalakshmi', 
-            'AMB Cinemas: Gachibowli', 
-            'INOX: Maheshwari', 
-            'Miraj Cinemas: Shalini Shivani',
+            'book tickets', 
         ], 
         cinemaName: 'Avengers: Endgame (All theaters ping)',
-        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com, amithreddynomula@gmail.com',
+        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
     });
 }
 
