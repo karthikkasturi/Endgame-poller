@@ -12,8 +12,7 @@ function checkShowTimingsChanged(event, bookingDate) {
     if(allEvents[event.eventId] === undefined){
         allEvents[event.eventId] = {
             venues: undefined,
-            dataStr: "",
-            movieName: event.eventName
+            movieName: event.movieName
         };
     }
     fetch("https://in.bookmyshow.com/ibvcom/getJSData.bms?cmd=GETSHOWTIMESBYEVENT&srid=HYD&eid=" + event.eventId + "&did=" + bookingDate, {
@@ -136,11 +135,30 @@ function repoll(){
         setTimeout(init, 40000);
     }
 }
-
+var lastHour = null;
 function init(){
-    if(new Date().getHours() === 24){ // Change if you wanna stop the serivce at a particular time
-        sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date() , "Polling service stopped at " + new Date())
+    var currentHour = new Date().getHours();
+    if(currentHour === 23){ // Change if you wanna stop the serivce at a particular time
+        sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date() , "Polling service stopped at " + new Date());
         return;
+    }
+    if(currentHour != lastHour)
+    {
+        if(lastHour !== null)
+        {
+            var allEventsStr = "Polling service is running at " + new Date();
+            allEventsStr += "<br> Current Status: <br/>";
+
+            for(var key of Object.keys(allEvents)) {
+                var currEvent = allEvents[key];
+                allEventsStr += "<br>*************";
+                allEventsStr += currEvent.movieName + ": [" + key + "]<br>";
+                allEventsStr += currEvent.venues.join("<br>");
+                allEventsStr += "<br>*************<br><br>";
+            }
+            sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] " + new Date() , allEventsStr);
+        }
+        lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
     findStuff('uri', '20190424');
