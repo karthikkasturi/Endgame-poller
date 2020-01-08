@@ -149,14 +149,19 @@ function init(){
     console.log('************************************')
     console.log("Polling all stations(runtime: " + new Date() + ")")
     console.log('************************************')
-    poll("https://in.bookmyshow.com/buytickets/prasads-large-screen/cinema-hyd-PRHY-MT/20190426", {
-        searchFor : ['endgame'],
+    poll("https://in.bookmyshow.com/buytickets/prasads-large-screen/cinema-hyd-PRHY-MT/20190830", {
+        searchFor : ['saaho'],
         cinemaName: 'I-MAX',
+        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.co',
+    });
+    poll("https://in.bookmyshow.com/buytickets/miraj-cinemas-shalini-shivani-hyderabad/cinema-hyd-MCSS-MT/20190830", {
+        searchFor : ['saaho'],
+        cinemaName: 'miraj',
         subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
     });
     
-    poll("https://in.bookmyshow.com/buytickets/prasads-hyderabad/cinema-hyd-PRHN-MT/20190426", {
-        searchFor : ['endgame'],
+    poll("https://in.bookmyshow.com/buytickets/prasads-hyderabad/cinema-hyd-PRHN-MT/20190830", {
+        searchFor : ['saaho'],
         cinemaName: 'Prasads',
         subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
     });
@@ -189,12 +194,12 @@ function init(){
     //     cinemaName: 'Avengers: Endgame (All theaters ping)',
     //     subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com, amithreddynomula@gmail.com',
     // });
-    poll("https://in.bookmyshow.com/buytickets/avengers-endgame-hyderabad/movie-hyd-ET00100559-MT/20190426", {
+    poll("https://in.bookmyshow.com/buytickets/saaho-hyderabad/movie-hyd-ET00056595-MT/20190830", {
         searchFor : [
             'book tickets', 
         ], 
         cinemaName: 'Avengers: Endgame (All theaters ping)',
-        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com',
+        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com', 'saifriends.7@gmail.com',
     });
 }
 

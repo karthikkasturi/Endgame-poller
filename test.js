@@ -4,7 +4,8 @@ const creds = require('./creds.js');
 
 var pendingCalls = 0;
 
-var subscribers = "karthikkasturi97@gmail.com, sumanth.akkala@gmail.com, amithreddynomula@gmail.com, nsatyasrikar@gmail.com, nagasivaram.tadepalli@ggktech.com"
+var subscribers = "karthikkasturi97@gmail.com, amithreddynomula@gmail.com, saifriends.7@gmail.com, sreekar37.999@gmail.com"
+// subscribers = "karthikkasturi97@gmail.com, nsatyasrikar@gmail.com"
 var allEvents = {};
 
 function checkShowTimingsChanged(event, bookingDate) {
@@ -29,8 +30,8 @@ function checkShowTimingsChanged(event, bookingDate) {
     }).then(x => x.text()).then(x => {
         pendingCalls--;
         var arrEvents, arrVenues, arrShowTimes, initRun = false;
+        //console.log('then x', x);
         eval(x);
-        // console.log(x);
         var subs = subscribers;
         if(!allEvents[event.eventId].venues){
             allEvents[event.eventId].venues = [];
@@ -39,17 +40,24 @@ function checkShowTimingsChanged(event, bookingDate) {
         }
         var currentStoredVenues = allEvents[event.eventId].venues;
         var venuesUpdated = false;
+	var newVenues = [];
         for(var venue of arrVenues){
             // var venueCode = venue[0];
             var venueName = venue[1];
             if(!currentStoredVenues.some(x => x === venueName)){
                 currentStoredVenues.push(venueName);
                 venuesUpdated = true;
+		if(!initRun)
+		newVenues.push(venueName);
             }
         }
         if(venuesUpdated || initRun) {
             var body = "";
-            body = event.movieName + " is available at:\n\n" + currentStoredVenues.join('\n\n');
+            body = event.movieName + " is available at:\n\n" ;
+	    if(!initRun) {
+		body += "<b>" + newVenues.join('\n\n') + "</b>\n";
+	    }
+	    body += currentStoredVenues.join('\n\n');
             console.log("**************************")
             console.log(body)
             console.log("**************************")
@@ -63,7 +71,7 @@ function checkShowTimingsChanged(event, bookingDate) {
                 body)
         }
         repoll();        
-    });
+    }).catch(x => console.log('error', x));
 
 }
 
@@ -86,6 +94,7 @@ function findStuff(movieName, bookingDate){
         var arrEvents;
         // console.log(x); 
         eval(x); // Get arrEvents
+//console.log(arrEvents)
         for(var event of arrEvents)
         {
             if(event[1].toLowerCase().includes(movieName))
@@ -131,6 +140,7 @@ function sendMail(from, to, subject, body){
 
 
 function repoll(){
+return;
     if(pendingCalls == 0)
     {
         setTimeout(init, 40000);
@@ -139,7 +149,7 @@ function repoll(){
 var lastHour = null;
 function init(){
     var currentHour = new Date().getHours();
-    if(currentHour === 24){ // Change if you wanna stop the serivce at a particular time
+    if(currentHour === 26){ // Change if you wanna stop the serivce at a particular time
         sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date() , "Polling service stopped at " + new Date());
         return;
     }
@@ -162,8 +172,8 @@ function init(){
         lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
-    findStuff('endgame', '20190426');
+    findStuff('sarileru', '20200111');
 }
 
 init();
-setTimeout(init, 40000)
+setInterval(init, 10000)
