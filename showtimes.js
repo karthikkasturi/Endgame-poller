@@ -161,7 +161,7 @@ function init() {
                 var currEvent = allEvents[key];
                 allEventsStr += "<br>*************";
                 allEventsStr += currEvent.movieName + ": [" + key + "]<br>";
-                allEventsStr += currEvent.venues.join("<br>");
+                allEventsStr += currEvent.showTimes.join("<br>");
                 allEventsStr += "<br>*************<br><br>";
             }
             sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] Service Running", allEventsStr);
@@ -169,7 +169,7 @@ function init() {
         lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
-    findStuff('vaikunt', '20200115', 'PRHN');
+    findStuff('vaikunt', '20200117', 'PRHN');
 }
 
 init();
