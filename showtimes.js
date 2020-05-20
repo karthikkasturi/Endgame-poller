@@ -169,7 +169,7 @@ function init() {
         lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
-    findStuff('vaikunt', '20200117', 'PRHN');
+    findStuff('vaikunt', '20200116', 'PRHN');
 }
 
 init();
