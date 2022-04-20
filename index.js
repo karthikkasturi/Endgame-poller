@@ -199,7 +199,7 @@ function init(){
             'book tickets', 
         ], 
         cinemaName: 'Avengers: Endgame (All theaters ping)',
-        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com', 'saifriends.7@gmail.com',
+        subscriber: 'kk11051997@gmail.com, karthikkasturi97@gmail.com', 
     });
 }
 

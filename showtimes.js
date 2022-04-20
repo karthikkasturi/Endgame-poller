@@ -7,6 +7,7 @@ var pendingCalls = 0;
 var subscribers = "karthikkasturi97@gmail.com, amithreddynomula@gmail.com, saifriends.7@gmail.com, sreekar37.999@gmail.com";
 subscribers = "karthikkasturi97@gmail.com, satellirakesh33@gmail.com, s4sashank95@gmail.com";
 subscribers = "karthikkasturi97@gmail.com, s4sashank95@gmail.com";
+subscribers = "karthikkasturi97@gmail.com";
 var allEvents = {};
 
 function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
@@ -31,7 +32,7 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
     }).then(x => x.text()).then(x => {
         pendingCalls--;
         var arrEvents, arrVenues, arrShowTimes, initRun = false;
-        //console.log('then x', x);
+        // console.log('then x', x);
         eval(x);
         var subs = subscribers;
         if (!allEvents[event.eventId].showTimes) {
@@ -67,7 +68,7 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
             body = body.replace(/\n/g, "<br>");
 
 
-            sendMail("kk11051997@gmail.com",
+            sendMail("wrucebaynebatsy@gmail.com",
                 subs,
                 (initRun ? ("[INITIALIZED SERVICE] " + event.movieName + " showtimes updated") : (event.movieName + " showtimes updated")) + " " + new Date(),
                 body)
@@ -106,7 +107,7 @@ function findStuff(movieName, bookingDate, venueNameReq) {
                 }
                 checkShowTimingsChanged(data, bookingDate, venueNameReq)
             }
-            // sendMail('kk11051997@gmail.com', 'karthikkasturi97@gmail.com', 'uri found', JSON.stringify(event))
+            // sendMail('wrucebaynebatsy@gmail.com', 'karthikkasturi97@gmail.com', 'uri found', JSON.stringify(event))
         }
         pendingCalls--;
         repoll();
@@ -149,7 +150,7 @@ var lastHour = null;
 function init() {
     var currentHour = new Date().getHours();
     if (currentHour === 26) { // Change if you wanna stop the serivce at a particular time
-        sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date(), "Polling service stopped at " + new Date());
+        sendMail("wrucebaynebatsy@gmail.com", "karthikkasturi97@gmail.com", "[STOPPED POLLING SERVICE] " + new Date(), "Polling service stopped at " + new Date());
         return;
     }
     if (currentHour != lastHour) {
@@ -164,12 +165,12 @@ function init() {
                 allEventsStr += currEvent.showTimes.join("<br>");
                 allEventsStr += "<br>*************<br><br>";
             }
-            sendMail("kk11051997@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] Service Running", allEventsStr);
+            sendMail("wrucebaynebatsy@gmail.com", "karthikkasturi97@gmail.com", "[POLLING SERVICE STATUS] Service Running", allEventsStr);
         }
         lastHour = currentHour;
     }
     console.log("Polling! at " + new Date())
-    findStuff('vaikunt', '20200116', 'PRHN');
+    findStuff('strange', '20220506', 'AMBH');
 }
 
 init();
