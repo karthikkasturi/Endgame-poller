@@ -1,6 +1,6 @@
 module.exports = {
     "mailAuth": {
-        "user": "kk11051997@gmail.com",
-        "pass": "Kk@3825633"
+        "user": "wrucebaynebatsy@gmail.com",
+        "pass": "Welcome2ggk"
     }
 }
