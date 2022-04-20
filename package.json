@@ -1,7 +1,7 @@
 {
     "dependencies": {
         "beepbeep": "^1.2.2",
-        "node-fetch": "^2.3.0",
+        "node-fetch": "^2.6.7",
         "nodemailer": "^6.1.0",
         "say": "^0.15.0"
     }
