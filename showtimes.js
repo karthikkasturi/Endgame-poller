@@ -32,7 +32,7 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
     }).then(x => x.text()).then(x => {
         pendingCalls--;
         var arrEvents, arrVenues, arrShowTimes, initRun = false;
-        // console.log('then x', x);
+        // clog('then x', x);
         eval(x);
         var subs = subscribers;
         if (!allEvents[event.eventId].showTimes) {
@@ -46,7 +46,7 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
         for (var show of arrShowTimes) {
             var venueCode = show[0];
             var showTime = show[3];
-		//console.log(venueCode, venueNameReq)
+		//clog(venueCode, venueNameReq)
             if (venueCode == venueNameReq && !currentStoredShowTimes.some(x => x === showTime)) {
 		currentStoredShowTimes.push(showTime);
                 showTimesUpdated = true;
@@ -61,9 +61,9 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
                 body += "<b>" + newShowTimes.join('\n\n') + "</b>\n\n";
             }
             body += currentStoredShowTimes.join('\n\n');
-            console.log("**************************")
-            console.log(body)
-            console.log("**************************")
+            clog("**************************")
+            clog(body)
+            clog("**************************")
             body += "\n\n\n\n<i>Mail me at karthikkasturi97@gmail.com to unsubscribe from these mails.</i>";
             body = body.replace(/\n/g, "<br>");
 
@@ -74,7 +74,7 @@ function checkShowTimingsChanged(event, bookingDate, venueNameReq) {
                 body)
         }
         repoll();
-    }).catch(x => console.log('error', x));
+    }).catch(x => clog({'error': x}));
 
 }
 
@@ -95,9 +95,9 @@ function findStuff(movieName, bookingDate, venueNameReq) {
         "mode": "cors"
     }).then(x => x.text()).then(x => {
         var arrEvents;
-        // console.log(x); 
+        // clog(x); 
         eval(x); // Get arrEvents
-        //console.log(arrEvents)
+        //clog(arrEvents)
         for (var event of arrEvents) {
             if (event[1].toLowerCase().includes(movieName)) {
                 var data = {
@@ -132,9 +132,9 @@ function sendMail(from, to, subject, body) {
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error);
+            clog(error);
         } else {
-            console.log('Email sent: ' + info.response);
+            clog('Email sent: ' + info.response);
         }
     });
 }
@@ -169,9 +169,28 @@ function init() {
         }
         lastHour = currentHour;
     }
-    console.log("Polling! at " + new Date())
+    clog("Polling! at " + new Date(), true)
     findStuff('strange', '20220506', 'AMBH');
 }
+
+var lastWasReplaceable = false;
+
+function clog(str, replace) {
+    if(replace) {
+        process.stdout.clearLine(0);
+        process.stdout.cursorTo(0);
+        process.stdout.write(str)
+        lastWasReplaceable = true;
+        return;
+    }
+    if(lastWasReplaceable && !replace) {
+        process.stdout.write('\n');
+    }
+    console.log(str)
+    lastWasReplaceable = replace;
+}
+
+clog({a: "ge"})
 
 init();
 setInterval(init, 10000)
